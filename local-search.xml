@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>《MySQL45讲》day1</title>
+    <link href="/2021/02/25/%E3%80%8AMySQL45%E8%AE%B2%E3%80%8Bday1/"/>
+    <url>/2021/02/25/%E3%80%8AMySQL45%E8%AE%B2%E3%80%8Bday1/</url>
+    
+    <content type="html"><![CDATA[<h3 id="MySQL基本架构"><a href="#MySQL基本架构" class="headerlink" title="MySQL基本架构"></a>MySQL基本架构</h3><ul><li><p>MySQL可以分为Server层和存储引擎层两部分。</p></li><li><p>Server层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖MySQL的大多数核心服务功能，以及所有的内置函数（如日期、时间函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等</p></li><li><p>存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持InnoDB、MyISAM、Memory等多个存储引擎。常用存储引擎为InnoDB，支持事务型的。MyISAM不支持事务，常用于读多写少业务环境。在MySQL5.5.5版本开始InnoDB为默认存储引擎。可通过指定存储引擎的类型来选择别的引擎。如在create table语句中使用engine&#x3D;memory来指定使用内存存储引擎创建表。</p><p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/ftjje20zue-1679714850269.png" alt="1679714850269"></p></li></ul><h4 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h4><p>连接器负责和客户端建立连接、获取权限、维持和管理连接</p><h4 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h4><p>当连接建立完成后，执行select语句会首先来到查询缓存。<br>MySQL拿到一个查询请求后，会先到查询缓存中查看之前是否执行过该语句。之前执行过的语句及其结果可能会以key-value对形式被缓存在内存中。key是查询的语句，value是查询的结果。如果查询缓存直接命中，这个value会被直接返回给客户端。<br>如果没有命中，继续执行后续流程。执行完成后，执行结果被存入查询缓存中。MySQL8.0后查询缓存被整体删除。</p><h4 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h4><p>如果查询缓存没有命中，就要开始真正执行语句。首先对SQL语句做解析。<br>分析器先会做“词法分析”。输入的是由多个字符串和空格组成的一条SQL语句，MySQL需要识别出里面的字符串分别是什么，代表什么。</p><h4 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h4><p>经过了分析器的分析，在开始执行之前，还需要经过优化器的处理。<br>优化器是在表里面有多个索引时，决定使用哪个索引；或者在一个语句有多表关联时，决定各个表的连接顺序。</p><h4 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h4><p>优化器阶段完成后，进入执行器阶段开始执行语句。<br>开始执行的时候，要先判断下客户端对这个表有没有执行的权限，如果没有，就会返回没有权限的错误，如果有权限，就打开表继续执行。打开表的时候，执行器会根据表的引擎定义，去使用这个引擎提供的接口。</p><h3 id="MySQL重要的日志模块"><a href="#MySQL重要的日志模块" class="headerlink" title="MySQL重要的日志模块"></a>MySQL重要的日志模块</h3><h4 id="redo-log（重做日志）"><a href="#redo-log（重做日志）" class="headerlink" title="redo log（重做日志）"></a>redo log（重做日志）</h4><p>redo log是InnoDB引擎特有的日志，当有一条记录需要更新时，InnoDB引擎会先把记录写到redo log里面，并更新内存，这时候更新就算完成了。同时，InnoDB引擎会在适当的时候，将这个操作记录更新到磁盘里面，而这个更新往往是在系统比较空闲的时候做的。<br>redo log是固定大小的，比如可以配置为一组4个文件，每个文件的大小是1GB，那么总共可以记录4GB的操作。从头开始写，写到末尾就又回到开头循环写。<br>有了redo log，InnoDB就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为crash-safe.<br>redo log 用于保证 crash-safe 能力。innodb_flush_log_at_trx_commit 这个参数设置成1的时候，表示每次事务的 redo log 都直接持久化到磁盘。可以保证 MySQL 异常重启之后数据不丢失。</p><p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/98gyf3r0ah-1679722539148.png" alt="1679722539148"></p><h4 id="bin-log（归档日志）"><a href="#bin-log（归档日志）" class="headerlink" title="bin log（归档日志）"></a>bin log（归档日志）</h4><p>bin log有两种模式，statement格式是记sql语句，row格式会记录行的内容，记两条，更新前和更新后都有。<br>bin log是MySQL的Server层实现的，所有引擎都可以使用。<br>sync_binlog 这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘。保证 MySQL 异常重启之后 binlog 不丢失。</p><h4 id="redo-log与bin-log的区别："><a href="#redo-log与bin-log的区别：" class="headerlink" title="redo log与bin log的区别："></a>redo log与bin log的区别：</h4><ol><li><p>redo log是InnoDB引擎特有的；bin log是MySQL的Server层实现的，所有引擎都可以使用</p></li><li><p>redo log是物理日志，记录的是“在某个数据页上做了什么修改”；bin log是逻辑日志，记录的是这个语句的原始逻辑，比如“给ID&#x3D;2这一行的c字段加1”</p></li><li><p>redo log是循环写的，空间固定会用完；bin log是可以追加写入的。“追加写”是指bin log文件写到一定大小后会切换到下一个，并不会覆盖以前的日志</p><p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/yxwkar1nk4-1679722516372.png" alt="1679722516372"></p></li></ol><h4 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h4><p>两阶段提交是指MySQL在执行更新操作时，引擎将新数据更新到内存后，同时将更新操作记录到redo log里面，此时redo log处于prepare状态。然后告知执行器执行完成了，随时可以提交事务。执行器生成这个操作的binlog，并将binlog写入磁盘。执行器调用引擎的提交事务接口，引擎把刚刚写入的redo log改成提交（commit）状态，更新完成。<br>两阶段提交是跨系统维持数据逻辑一致性时常用的一个方案。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>笔记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hexo初入坑</title>
+    <link href="/2021/01/15/hexo%E5%88%9D%E5%85%A5%E5%9D%91/"/>
+    <url>/2021/01/15/hexo%E5%88%9D%E5%85%A5%E5%9D%91/</url>
+    
+    <content type="html"><![CDATA[<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul><li>node.js（版本在12以上）</li><li>git</li></ul><h4 id="GitHub创建仓库"><a href="#GitHub创建仓库" class="headerlink" title="GitHub创建仓库"></a>GitHub创建仓库</h4><ol><li>在github上创建username.github.io的仓库（username为github用户名）</li><li>在设置中生成token替代密码使用</li></ol><h3 id="Hexo安装"><a href="#Hexo安装" class="headerlink" title="Hexo安装"></a>Hexo安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install -g hexo<br></code></pre></td></tr></table></figure><h3 id="Hexo初始化"><a href="#Hexo初始化" class="headerlink" title="Hexo初始化"></a>Hexo初始化</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">hexo init<br><span class="hljs-meta prompt_"># </span><span class="language-bash">hexo会自动下载所需文件在当前目录下</span><br></code></pre></td></tr></table></figure><h3 id="配置fluid主题"><a href="#配置fluid主题" class="headerlink" title="配置fluid主题"></a>配置fluid主题</h3><ol><li>使用npm安装主题</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install --save hexo-theme-fluid<br></code></pre></td></tr></table></figure><p>在node_moduels目录找到该主题，复制_config.yml到博客主目录下，可以改名_config.fluid.yml，修改博客主目录下_config.yml中的配置theme:landscape改为theme:fluid，language改为zh-CN</p><h3 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h3><ol><li>修改博客根目录下的_config.yml文件中的deploy<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">deploy:<br>  type: git<br>  repo: https://github.com/username/username.github.io<br>  branch: master<br>  token: ******(前面生成的token)<br></code></pre></td></tr></table></figure></li><li>安装插件 hexo-deployer-git<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install hexo-deployer-git --save<br></code></pre></td></tr></table></figure></li><li>执行hexo d并在命令行输入github用户名和准备好的token</li><li>打开 <a href="https://username.github.io/">https://username.github.io</a> 查看是否部署成功</li></ol><h3 id="常用Hexo命令"><a href="#常用Hexo命令" class="headerlink" title="常用Hexo命令"></a>常用Hexo命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">hexo new &quot;post&quot;      # 新建文章<br>hexo new page &quot;page&quot; # 新建页面<br>hexo generate            # 生成静态页面至public目录<br>hexo server              # 开启预览访问端口（默认端口4000）<br>hexo deploy              # 部署到GitHub<br>hexo help                # 查看帮助<br>hexo version             # 查看Hexo的版本<br>hexo clean<br>缩写命令：<br>hexo n == hexo new<br>hexo g == hexo generate<br>hexo s == hexo server<br>hexo d == hexo deploy<br>组合命令：<br>hexo s -g   # 生成并本地预览<br>hexo d -g   # 生成并上传<br></code></pre></td></tr></table></figure><h3 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h3><ol><li>hexo中文文档地址  <a href="https://hexo.io/zh-cn/docs/">https://hexo.io/zh-cn/docs/</a></li><li>fluid用户手册 <a href="https://hexo.fluid-dev.com/docs/start/">https://hexo.fluid-dev.com/docs/start/</a></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2021/01/14/hello-world/"/>
+    <url>/2021/01/14/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
