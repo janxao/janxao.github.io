@@ -29,6 +29,31 @@
   
   
   <entry>
+    <title>nginx下载与安装</title>
+    <link href="/2021/02/15/nginx%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85/"/>
+    <url>/2021/02/15/nginx%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85/</url>
+    
+    <content type="html"><![CDATA[<h3 id="下载并解压安装包"><a href="#下载并解压安装包" class="headerlink" title="下载并解压安装包"></a>下载并解压安装包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install wget<br><br>wget https://nginx.org/download/nginx-1.16.1.tar.gz<br><br>tar -zxvf nginx-1.16.1.tar.gz<br><br></code></pre></td></tr></table></figure><h3 id="将解压的文件夹改名并移动位置到-x2F-usr-x2F-local-x2F-nginx"><a href="#将解压的文件夹改名并移动位置到-x2F-usr-x2F-local-x2F-nginx" class="headerlink" title="将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx"></a>将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">mv nginx-1.16.1 nginx<br><br>mv nginx/ /usr/local/<br></code></pre></td></tr></table></figure><h3 id="安装相关依赖"><a href="#安装相关依赖" class="headerlink" title="安装相关依赖"></a>安装相关依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum -y install gcc openssl openssl-devel pcre-devel zlib zlib-devel<br></code></pre></td></tr></table></figure><h3 id="cd到nginx目录下，执行-x2F-configure"><a href="#cd到nginx目录下，执行-x2F-configure" class="headerlink" title="cd到nginx目录下，执行.&#x2F;configure"></a>cd到nginx目录下，执行.&#x2F;configure</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/local/nginx<br><br>./configure<br></code></pre></td></tr></table></figure><h3 id="执行make和make-install命令"><a href="#执行make和make-install命令" class="headerlink" title="执行make和make install命令"></a>执行make和make install命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">make<br><br>make install<br></code></pre></td></tr></table></figure><h3 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/local/nginx/sbin<br><br>./nginx <br><br>ps -ef|grep nginx<br><br>./nginx -s reload<br><br>./nginx -s stop<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>笔记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>nginx</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hexo初入坑</title>
     <link href="/2021/01/15/hexo%E5%88%9D%E5%85%A5%E5%9D%91/"/>
     <url>/2021/01/15/hexo%E5%88%9D%E5%85%A5%E5%9D%91/</url>

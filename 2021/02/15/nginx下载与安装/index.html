@@ -16,28 +16,24 @@
   <meta name="author" content="admin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MySQL基本架构 MySQL可以分为Server层和存储引擎层两部分。  Server层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖MySQL的大多数核心服务功能，以及所有的内置函数（如日期、时间函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等  存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持InnoDB、MyISAM、Memory等多个存储引擎。常">
+    <meta name="description" content="下载并解压安装包123456yum install wgetwget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.16.1.tar.gztar -zxvf nginx-1.16.1.tar.gz  将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx123mv nginx-1.16.1 nginxmv nginx&#x2F; &#x2F;usr&#x2F;loc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《MySQL45讲》day1">
-<meta property="og:url" content="https://janxao.github.io/2021/02/25/%E3%80%8AMySQL45%E8%AE%B2%E3%80%8Bday1/index.html">
+<meta property="og:title" content="nginx下载与安装">
+<meta property="og:url" content="https://janxao.github.io/2021/02/15/nginx%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="MySQL基本架构 MySQL可以分为Server层和存储引擎层两部分。  Server层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖MySQL的大多数核心服务功能，以及所有的内置函数（如日期、时间函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等  存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持InnoDB、MyISAM、Memory等多个存储引擎。常">
+<meta property="og:description" content="下载并解压安装包123456yum install wgetwget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.16.1.tar.gztar -zxvf nginx-1.16.1.tar.gz  将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx123mv nginx-1.16.1 nginxmv nginx&#x2F; &#x2F;usr&#x2F;loc">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/ftjje20zue-1679714850269.png">
-<meta property="og:image" content="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/98gyf3r0ah-1679722539148.png">
-<meta property="og:image" content="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/yxwkar1nk4-1679722516372.png">
-<meta property="article:published_time" content="2021-02-25T02:31:12.000Z">
-<meta property="article:modified_time" content="2023-04-11T14:19:11.463Z">
+<meta property="article:published_time" content="2021-02-15T06:15:39.000Z">
+<meta property="article:modified_time" content="2023-04-12T06:38:12.433Z">
 <meta property="article:author" content="admin">
-<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/ftjje20zue-1679714850269.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>《MySQL45讲》day1 - Hexo</title>
+  <title>nginx下载与安装 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">《MySQL45讲》day1</span>
+            <span id="subtitle">nginx下载与安装</span>
           
         </div>
 
@@ -214,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-02-25 10:31" pubdate>
-          2021年2月25日 上午
+        <time datetime="2021-02-15 14:15" pubdate>
+          2021年2月15日 下午
         </time>
       </span>
     
@@ -226,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          448 字
         
       </span>
     
@@ -237,7 +233,7 @@
         
         
         
-          16 分钟
+          4 分钟
         
       </span>
     
@@ -275,38 +271,23 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">《MySQL45讲》day1</h1>
+            <h1 style="display: none">nginx下载与安装</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="MySQL基本架构"><a href="#MySQL基本架构" class="headerlink" title="MySQL基本架构"></a>MySQL基本架构</h3><ul>
-<li><p>MySQL可以分为Server层和存储引擎层两部分。</p>
-</li>
-<li><p>Server层包括连接器、查询缓存、分析器、优化器、执行器等，涵盖MySQL的大多数核心服务功能，以及所有的内置函数（如日期、时间函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等</p>
-</li>
-<li><p>存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持InnoDB、MyISAM、Memory等多个存储引擎。常用存储引擎为InnoDB，支持事务型的。MyISAM不支持事务，常用于读多写少业务环境。在MySQL5.5.5版本开始InnoDB为默认存储引擎。可通过指定存储引擎的类型来选择别的引擎。如在create table语句中使用engine&#x3D;memory来指定使用内存存储引擎创建表。</p>
-<p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/ftjje20zue-1679714850269.png" srcset="/img/loading.gif" lazyload alt="1679714850269"></p>
-</li>
-</ul>
-<h4 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h4><p>连接器负责和客户端建立连接、获取权限、维持和管理连接</p>
-<h4 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h4><p>当连接建立完成后，执行select语句会首先来到查询缓存。<br>MySQL拿到一个查询请求后，会先到查询缓存中查看之前是否执行过该语句。之前执行过的语句及其结果可能会以key-value对形式被缓存在内存中。key是查询的语句，value是查询的结果。如果查询缓存直接命中，这个value会被直接返回给客户端。<br>如果没有命中，继续执行后续流程。执行完成后，执行结果被存入查询缓存中。MySQL8.0后查询缓存被整体删除。</p>
-<h4 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h4><p>如果查询缓存没有命中，就要开始真正执行语句。首先对SQL语句做解析。<br>分析器先会做“词法分析”。输入的是由多个字符串和空格组成的一条SQL语句，MySQL需要识别出里面的字符串分别是什么，代表什么。</p>
-<h4 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h4><p>经过了分析器的分析，在开始执行之前，还需要经过优化器的处理。<br>优化器是在表里面有多个索引时，决定使用哪个索引；或者在一个语句有多表关联时，决定各个表的连接顺序。</p>
-<h4 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h4><p>优化器阶段完成后，进入执行器阶段开始执行语句。<br>开始执行的时候，要先判断下客户端对这个表有没有执行的权限，如果没有，就会返回没有权限的错误，如果有权限，就打开表继续执行。打开表的时候，执行器会根据表的引擎定义，去使用这个引擎提供的接口。</p>
-<h3 id="MySQL重要的日志模块"><a href="#MySQL重要的日志模块" class="headerlink" title="MySQL重要的日志模块"></a>MySQL重要的日志模块</h3><h4 id="redo-log（重做日志）"><a href="#redo-log（重做日志）" class="headerlink" title="redo log（重做日志）"></a>redo log（重做日志）</h4><p>redo log是InnoDB引擎特有的日志，当有一条记录需要更新时，InnoDB引擎会先把记录写到redo log里面，并更新内存，这时候更新就算完成了。同时，InnoDB引擎会在适当的时候，将这个操作记录更新到磁盘里面，而这个更新往往是在系统比较空闲的时候做的。<br>redo log是固定大小的，比如可以配置为一组4个文件，每个文件的大小是1GB，那么总共可以记录4GB的操作。从头开始写，写到末尾就又回到开头循环写。<br>有了redo log，InnoDB就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为crash-safe.<br>redo log 用于保证 crash-safe 能力。innodb_flush_log_at_trx_commit 这个参数设置成1的时候，表示每次事务的 redo log 都直接持久化到磁盘。可以保证 MySQL 异常重启之后数据不丢失。</p>
-<p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/98gyf3r0ah-1679722539148.png" srcset="/img/loading.gif" lazyload alt="1679722539148"></p>
-<h4 id="bin-log（归档日志）"><a href="#bin-log（归档日志）" class="headerlink" title="bin log（归档日志）"></a>bin log（归档日志）</h4><p>bin log有两种模式，statement格式是记sql语句，row格式会记录行的内容，记两条，更新前和更新后都有。<br>bin log是MySQL的Server层实现的，所有引擎都可以使用。<br>sync_binlog 这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘。保证 MySQL 异常重启之后 binlog 不丢失。</p>
-<h4 id="redo-log与bin-log的区别："><a href="#redo-log与bin-log的区别：" class="headerlink" title="redo log与bin log的区别："></a>redo log与bin log的区别：</h4><ol>
-<li><p>redo log是InnoDB引擎特有的；bin log是MySQL的Server层实现的，所有引擎都可以使用</p>
-</li>
-<li><p>redo log是物理日志，记录的是“在某个数据页上做了什么修改”；bin log是逻辑日志，记录的是这个语句的原始逻辑，比如“给ID&#x3D;2这一行的c字段加1”</p>
-</li>
-<li><p>redo log是循环写的，空间固定会用完；bin log是可以追加写入的。“追加写”是指bin log文件写到一定大小后会切换到下一个，并不会覆盖以前的日志</p>
-<p><img src="https://zxj-res.oss-cn-hangzhou.aliyuncs.com/imgloc/2023325/yxwkar1nk4-1679722516372.png" srcset="/img/loading.gif" lazyload alt="1679722516372"></p>
-</li>
-</ol>
-<h4 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h4><p>两阶段提交是指MySQL在执行更新操作时，引擎将新数据更新到内存后，同时将更新操作记录到redo log里面，此时redo log处于prepare状态。然后告知执行器执行完成了，随时可以提交事务。执行器生成这个操作的binlog，并将binlog写入磁盘。执行器调用引擎的提交事务接口，引擎把刚刚写入的redo log改成提交（commit）状态，更新完成。<br>两阶段提交是跨系统维持数据逻辑一致性时常用的一个方案。</p>
+                <h3 id="下载并解压安装包"><a href="#下载并解压安装包" class="headerlink" title="下载并解压安装包"></a>下载并解压安装包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install wget<br><br>wget https://nginx.org/download/nginx-1.16.1.tar.gz<br><br>tar -zxvf nginx-1.16.1.tar.gz<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="将解压的文件夹改名并移动位置到-x2F-usr-x2F-local-x2F-nginx"><a href="#将解压的文件夹改名并移动位置到-x2F-usr-x2F-local-x2F-nginx" class="headerlink" title="将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx"></a>将解压的文件夹改名并移动位置到&#x2F;usr&#x2F;local&#x2F;nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">mv nginx-1.16.1 nginx<br><br>mv nginx/ /usr/local/<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装相关依赖"><a href="#安装相关依赖" class="headerlink" title="安装相关依赖"></a>安装相关依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum -y install gcc openssl openssl-devel pcre-devel zlib zlib-devel<br></code></pre></td></tr></table></figure>
+
+<h3 id="cd到nginx目录下，执行-x2F-configure"><a href="#cd到nginx目录下，执行-x2F-configure" class="headerlink" title="cd到nginx目录下，执行.&#x2F;configure"></a>cd到nginx目录下，执行.&#x2F;configure</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/local/nginx<br><br>./configure<br></code></pre></td></tr></table></figure>
+
+<h3 id="执行make和make-install命令"><a href="#执行make和make-install命令" class="headerlink" title="执行make和make install命令"></a>执行make和make install命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">make<br><br>make install<br></code></pre></td></tr></table></figure>
+
+<h3 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/local/nginx/sbin<br><br>./nginx <br><br>ps -ef|grep nginx<br><br>./nginx -s reload<br><br>./nginx -s stop<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -340,7 +321,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/MySQL/">#MySQL</a>
+        <a href="/tags/nginx/">#nginx</a>
       
     </div>
   
@@ -354,12 +335,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2021/02/25/%E3%80%8AMySQL45%E8%AE%B2%E3%80%8Bday1/" title="《MySQL45讲》day1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《MySQL45讲》day1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/15/nginx%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85/" title="nginx下载与安装">
-                        <span class="hidden-mobile">nginx下载与安装</span>
+                      <a href="/2021/01/15/hexo%E5%88%9D%E5%85%A5%E5%9D%91/" title="Hexo初入坑">
+                        <span class="hidden-mobile">Hexo初入坑</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
