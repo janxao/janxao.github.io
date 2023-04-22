@@ -24,7 +24,7 @@
 <meta property="og:description" content="nginx安装(centos) 安装依赖  yum -y install gcc gcc-c++  1yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel   使用wget命令下载安装包  1wget -c https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;ng">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-22T11:15:47.000Z">
-<meta property="article:modified_time" content="2023-04-22T03:50:27.053Z">
+<meta property="article:modified_time" content="2023-04-22T06:07:12.372Z">
 <meta property="article:author" content="admin">
 <meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.5k 字
+          8.1k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          63 分钟
+          68 分钟
         
       </span>
     
@@ -434,6 +434,26 @@
 <li>修改nginx.conf配置</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs shell">server &#123;<br>    listen 443 ssl; #监听443端口<br>    server_name xxx.com; <br>    root html;<br>    index index.html index.htm;<br>    ssl_certificate  /usr/local/nginx/cert/xxx.pem; #证书地址<br>    ssl_certificate_key /usr/local/nginx/cert/xxx.key; #证书私钥地址<br>    ssl_session_timeout 5m;<br>    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;<br>    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;<br>    ssl_prefer_server_ciphers on;<br>    location / &#123;<br>        index index.html index.htm;<br>    &#125;<br>&#125;<br>server &#123;<br>    listen 80;<br>    server_name xxx.com;<br>    rewrite ^(.*)$ https://$host:443$1 permanent; #把http的域名请求转成https且转发到443端口<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>重启nginx</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">进入sbin目录，执行</span><br>./nginx -s reload<br></code></pre></td></tr></table></figure>
+
+<p>如果有报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">nginx: [emerg] the &quot;ssl&quot; parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/vhost/crm.conf:3<br></code></pre></td></tr></table></figure>
+
+<p>备份sbin执行文件，关闭nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cp nginx nginx.bak<br>nginx -s quit<br></code></pre></td></tr></table></figure>
+
+<p>重新进入源码包，执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module<br><br>make<br><br>make install<br></code></pre></td></tr></table></figure>
+
+<p>进入sbin目录，执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">./nginx -V<br><br>nginx version: nginx/1.16.1<br>built by gcc 8.5.0 20210514 (Red Hat 8.5.0-4) (GCC) <br>built with OpenSSL 1.1.1k  FIPS 25 Mar 2021<br>TLS SNI support enabled<br>configure arguments: --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module<br><br></code></pre></td></tr></table></figure>
+
+<p>重新启动nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./nginx<br></code></pre></td></tr></table></figure>
 
 
 
