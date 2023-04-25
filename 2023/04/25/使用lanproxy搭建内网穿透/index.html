@@ -7,6 +7,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer" />
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
   <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
@@ -23,15 +24,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="环境 安装了nginx和docker的公网服务器 已备案的域名 本地电脑安装java、maven、git 一个可启动的项目配合测试  使用docker下载运行lanproxy服务端123456789101112docker run -d \           --name lanproxy-server \           -p 8090:8090 \           -p 4900:4">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/hhzxj/images/raw/master/img/202304251109261.png">
-<meta property="og:image" content="https://gitee.com/hhzxj/images/raw/master/img/202304251113558.png">
-<meta property="og:image" content="https://gitee.com/hhzxj/images/raw/master/img/202304251116157.png">
-<meta property="og:image" content="https://gitee.com/hhzxj/images/raw/master/img/202304251135096.png">
+<meta property="og:image" content="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318180.png">
+<meta property="og:image" content="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318646.png">
+<meta property="og:image" content="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318252.png">
+<meta property="og:image" content="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251319964.png">
 <meta property="article:published_time" content="2023-04-25T03:01:40.000Z">
-<meta property="article:modified_time" content="2023-04-25T03:41:44.842Z">
+<meta property="article:modified_time" content="2023-04-25T05:19:10.908Z">
 <meta property="article:author" content="admin">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://gitee.com/hhzxj/images/raw/master/img/202304251109261.png">
+<meta name="twitter:image" content="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318180.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -289,15 +290,15 @@
 <h3 id="使用docker下载运行lanproxy服务端"><a href="#使用docker下载运行lanproxy服务端" class="headerlink" title="使用docker下载运行lanproxy服务端"></a>使用docker下载运行lanproxy服务端</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -d \<br>           --name lanproxy-server \<br>           -p 8090:8090 \<br>           -p 4900:4900 \<br>           -p 4993:4993 \<br>           -p 9000-9100:9000-9100 \<br>           biodwhu/lanproxy<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">8090 后台管理系统端口</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">4900 客户端连接服务端http端口</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">4903 客户端连接服务端ssl端口</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">9000-9100 准备提供内网穿透的端口</span><br></code></pre></td></tr></table></figure>
 
 <p>使用docker ps查看状态</p>
-<p><img src="https://gitee.com/hhzxj/images/raw/master/img/202304251109261.png" srcset="/img/loading.gif" lazyload alt="image-20230425110930227"></p>
+<p><img src="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318180.png" srcset="/img/loading.gif" lazyload alt="image-20230425110930227"></p>
 <p>为避免太多端口暴露出去，使用nginx配置反向代理</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">server &#123;<br>    listen 80;<br>    # 配置的域名<br>    server_name lanproxy.abc.com;<br>    charset utf-8;<br>    location / &#123;<br>        proxy_set_header   X-Real-IP $remote_addr;<br>        proxy_set_header   Host      $http_host;<br>        # 这里根据你的 lanproxy 配置，改成 config.server.port的值<br>        proxy_pass       http://localhost:8090;<br>        client_max_body_size 35m;<br>        proxy_http_version 1.1;<br>        proxy_set_header Upgrade $http_upgrade;<br>        proxy_set_header Connection &quot;upgrade&quot;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>浏览器访问<a target="_blank" rel="noopener" href="http://lanproxy.abc.com/">http://lanproxy.abc.com</a></p>
-<p><img src="https://gitee.com/hhzxj/images/raw/master/img/202304251113558.png" srcset="/img/loading.gif" lazyload alt="image-20230425111309538"></p>
+<p><img src="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318646.png" srcset="/img/loading.gif" lazyload alt="image-20230425111309538"></p>
 <p>出现该页面为服务端运行成功，默认密码为admin&#x2F;admin</p>
 <p>进入管理后台，添加客户端，保存密钥</p>
-<p><img src="https://gitee.com/hhzxj/images/raw/master/img/202304251116157.png" srcset="/img/loading.gif" lazyload alt="image-20230425111616137"></p>
+<p><img src="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251318252.png" srcset="/img/loading.gif" lazyload alt="image-20230425111616137"></p>
 <h3 id="下载启动客户端"><a href="#下载启动客户端" class="headerlink" title="下载启动客户端"></a>下载启动客户端</h3><p>使用git clone lanproxy代码到本地</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/ffay/lanproxy.git lanproxy<br></code></pre></td></tr></table></figure>
 
@@ -320,7 +321,7 @@
 </ul>
 <h3 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h3><p>本地运行Java项目，端口号为9527，访问swagger正常</p>
 <p>管理后台添加配置，映射到公网服务器9000端口</p>
-<p><img src="https://gitee.com/hhzxj/images/raw/master/img/202304251135096.png" srcset="/img/loading.gif" lazyload alt="image-20230425113519068"></p>
+<p><img src="https://res-imgs.oss-cn-hangzhou.aliyuncs.com/picgo/202304251319964.png" srcset="/img/loading.gif" lazyload alt="image-20230425113519068"></p>
 <p>服务器nginx配置文件添加配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">server &#123;<br>    listen 80;<br>    # 自定义域名<br>    server_name test.abc.com;<br>    charset utf-8;<br>    location / &#123;<br>        proxy_set_header   X-Real-IP $remote_addr;<br>        proxy_set_header   Host      $http_host;<br>        # 在lanproxy管理后台上配置的公网端口<br>        proxy_pass       http://localhost:9000;<br>        client_max_body_size 35m;<br>        proxy_http_version 1.1;<br>        proxy_set_header Upgrade $http_upgrade;<br>        proxy_set_header Connection &quot;upgrade&quot;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
